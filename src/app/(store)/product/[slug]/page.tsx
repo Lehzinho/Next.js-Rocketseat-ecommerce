@@ -1,13 +1,32 @@
 import React from 'react'
 import Image from 'next/image'
+import { Product } from '@/data/types/product'
+import { api } from '@/data/api'
 
-const ProductPage = () => {
+interface ProductProps {
+  params: {
+    slug: string
+  }
+}
+
+async function getProduct(slug: string): Promise<Product> {
+  const response = await api(`/products/${slug}`, {
+    cache: 'no-cache',
+  })
+
+  const products = await response.json()
+
+  return products
+}
+
+const ProductPage = async ({ params }: ProductProps) => {
+  const product = await getProduct(params.slug)
   return (
     <div className="relative grid max-h-[860px] grid-cols-3">
       <div className="col-span-2 overflow-hidden">
         <Image
           className=""
-          src="/moletom-never-stop-learning.png"
+          src={product.image}
           alt=""
           width={1000}
           height={1000}
@@ -15,18 +34,25 @@ const ProductPage = () => {
         />
       </div>
       <div className="flex flex-col justify-center px-12">
-        <h1 className="text-3xl font-bold leading-tight">
-          Moletom Never Stop Learining
-        </h1>
+        <h1 className="text-3xl font-bold leading-tight">{product.title}</h1>
         <p className="mt-2 leading-relaxed text-zinc-400">
-          Moletom fabricado com 88% de algodao e 12% de poliéster.
+          {product.description}
         </p>
         <div className="mt-8 flex items-center gap-3">
           <span className="inline-block rounded-full bg-violet-500 py-2.5 px-5 font-semibold">
-            R$129
+            {product.price.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
           </span>
           <span className="text-sm text-zinc-400">
-            Em 12x s/ juros de R$10,50
+            Em 12x s/ juros de{' '}
+            {(product.price / 12).toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
           </span>
         </div>
         <div className="mt-8 space-y-2">
@@ -58,6 +84,9 @@ const ProductPage = () => {
             </button>
           </div>
         </div>
+        <button className="mt-8 flex h-12 items-center justify-center rounded-full bg-emerald-600 font-semibold text-white ">
+          Adicionar ao carrinho
+        </button>
       </div>
     </div>
   )
