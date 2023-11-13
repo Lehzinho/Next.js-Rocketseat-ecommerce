@@ -1,14 +1,14 @@
-import React from "react";
-import Image from "next/image";
-import { Product } from "@/data/types/product";
-import { api } from "@/data/api";
-import { Metadata } from "next";
-import AddToCartButton from "@/components/add-to-cart-button";
+import React from 'react'
+import Image from 'next/image'
+import { Product } from '@/data/types/product'
+import { api } from '@/data/api'
+import { Metadata } from 'next'
+import AddToCartButton from '@/components/add-to-cart-button'
 
 interface ProductProps {
   params: {
-    slug: string;
-  };
+    slug: string
+  }
 }
 
 async function getProduct(slug: string): Promise<Product> {
@@ -16,33 +16,33 @@ async function getProduct(slug: string): Promise<Product> {
     next: {
       revalidate: 60 * 60,
     },
-  });
+  })
 
-  const products = await response.json();
+  const products = await response.json()
 
-  return products;
+  return products
 }
 
 export const generateMetadata = async ({
   params,
 }: ProductProps): Promise<Metadata> => {
-  const product = await getProduct(params.slug);
+  const product = await getProduct(params.slug)
   return {
     title: product.title,
-  };
-};
+  }
+}
 
 export const generateStaticParams = async () => {
-  const response = await api("/products/featured");
-  const products: Product[] = await response.json();
+  const response = await api('/products/featured')
+  const products: Product[] = await response.json()
 
   return products.map((product) => {
-    return { slug: product.slug };
-  });
-};
+    return { slug: product.slug }
+  })
+}
 
 const ProductPage = async ({ params }: ProductProps) => {
-  const product = await getProduct(params.slug);
+  const product = await getProduct(params.slug)
   return (
     <div className="relative grid max-h-[860px] grid-cols-3">
       <div className="col-span-2 overflow-hidden">
@@ -62,18 +62,18 @@ const ProductPage = async ({ params }: ProductProps) => {
         </p>
         <div className="mt-8 flex items-center gap-3">
           <span className="inline-block rounded-full bg-violet-500 py-2.5 px-5 font-semibold">
-            {product.price.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
+            {product.price.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
             })}
           </span>
           <span className="text-sm text-zinc-400">
-            Em 12x s/ juros de{" "}
-            {(product.price / 12).toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
+            Em 12x s/ juros de{' '}
+            {(product.price / 12).toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
             })}
           </span>
         </div>
@@ -109,7 +109,7 @@ const ProductPage = async ({ params }: ProductProps) => {
         <AddToCartButton productId={product.id} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductPage;
+export default ProductPage
