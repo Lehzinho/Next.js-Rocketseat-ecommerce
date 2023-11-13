@@ -1,20 +1,25 @@
-import { api } from '@/data/api'
-import { Product } from '@/data/types/product'
-import Image from 'next/image'
-import Link from 'next/link'
+import { api } from "@/data/api";
+import { Product } from "@/data/types/product";
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 async function getFeaturedProducts(): Promise<Product[]> {
-  const response = await api('/products/featured', {
-    cache: 'no-cache',
-  })
+  const response = await api("/products/featured", {
+    cache: "no-cache",
+  });
 
-  const products = await response.json()
+  const products = await response.json();
 
-  return products
+  return products;
 }
 
+export const metadata: Metadata = {
+  title: "Home",
+};
+
 export default async function Home() {
-  const [highleghtedProduct, ...otherProducts] = await getFeaturedProducts()
+  const [highleghtedProduct, ...otherProducts] = await getFeaturedProducts();
 
   return (
     <div className="grid max-h-[860px] grid-cols-9 grid-row-6 gap-6">
@@ -33,9 +38,9 @@ export default async function Home() {
         <div className="absolute bottom-28 right-28 h-12 flex items-center gap-2 max-w-[288p] rounded-full border-2 border-zinc-500 bg-black/60 p-1 pl-5">
           <span className="text-sm truncate"> {highleghtedProduct.title}</span>
           <span className="flex h-full items-center justify-center rounded-full bg-violet-500 px-4 font-semibold">
-            {highleghtedProduct.price.toLocaleString('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
+            {highleghtedProduct.price.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
             })}
@@ -60,9 +65,9 @@ export default async function Home() {
           <div className="absolute bottom-10 right-10 h-12 flex items-center gap-2 max-w-[288p] rounded-full border-2 border-zinc-500 bg-black/60 p-1 pl-5">
             <span className="text-sm truncate"> {product.title}</span>
             <span className="flex h-full items-center justify-center rounded-full bg-violet-500 px-4 font-semibold">
-              {product.price.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
+              {product.price.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               })}
@@ -71,5 +76,5 @@ export default async function Home() {
         </Link>
       ))}
     </div>
-  )
+  );
 }
