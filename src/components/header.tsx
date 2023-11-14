@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import React from 'react'
-import { Search, ShoppingBag } from 'lucide-react'
+import { Suspense } from 'react'
 import Image from 'next/image'
 import CardWidget from './card-widget'
 import { SearchForm } from './search-form'
@@ -12,7 +11,9 @@ const Header = () => {
         <Link href={'/'} className="text-2xl font-extrabold text-white">
           devstore
         </Link>
-        <SearchForm />
+        <Suspense fallback={null}>
+          <SearchForm />
+        </Suspense>
       </div>
       <div className="flex items-center gap-4">
         <CardWidget />

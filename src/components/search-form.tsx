@@ -1,27 +1,25 @@
-"use client";
-import { Search } from "lucide-react";
-import { useRouter } from "next/navigation";
+'use client'
+import { Search } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-import { FormEvent } from "react";
+import { FormEvent } from 'react'
 
 export const SearchForm = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   function handleSearch(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+    event.preventDefault()
 
-    const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData);
+    const formData = new FormData(event.currentTarget)
+    const data = Object.fromEntries(formData)
 
-    const query = data.q;
-
-    console.log(query);
+    const query = data.q
 
     if (!query) {
-      return null;
+      return null
     }
 
-    router.push(`/search?q=${query}`);
+    router.push(`/search?q=${query}`)
   }
 
   return (
@@ -37,5 +35,5 @@ export const SearchForm = () => {
         required
       />
     </form>
-  );
-};
+  )
+}
