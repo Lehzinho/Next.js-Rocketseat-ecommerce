@@ -1,16 +1,16 @@
-"use client";
-import { useCart } from "@/contexts/cart-context";
-import React from "react";
+'use client'
+import { useCart } from '@/contexts/cart-context'
+import React from 'react'
 
 export interface addToCartButtonProps {
-  productId: number;
+  productId: number
 }
 
 const AddToCartButton = ({ productId }: addToCartButtonProps) => {
-  const { addToCart } = useCart();
+  const { addToCart } = useCart()
 
   function handleAddProductToCart() {
-    addToCart(productId);
+    addToCart(productId)
   }
 
   return (
@@ -20,7 +20,7 @@ const AddToCartButton = ({ productId }: addToCartButtonProps) => {
     >
       Adicionar ao carrinho
     </button>
-  );
-};
+  )
+}
 
-export default AddToCartButton;
+export default AddToCartButton

@@ -1,10 +1,10 @@
-import Header from "@/components/header";
-import { CartProvider } from "@/contexts/cart-context";
+import Header from '@/components/header'
+import { CartProvider } from '@/contexts/cart-context'
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <CartProvider>
@@ -13,5 +13,5 @@ export default function RootLayout({
         {children}
       </div>
     </CartProvider>
-  );
+  )
 }
